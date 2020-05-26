@@ -5,6 +5,8 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+echo "Note that still only works with Ubuntu"
+
 zenity --list --checklist --title="Packages"\
     --text="Select what you want to install "\
     --column=""\
