@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if [[ $EUID -ne 0 ]]; then
-    echo "Please 'sudo ./run.sh'"
-    exit 1
-fi
 globalInput=""
 
 function getInput() {
@@ -21,11 +17,11 @@ function output() {
     array=($(echo $1 | tr "|" "\n"))
 
     for i in "${array[@]}"; do
-        $i
+        "install_$i"
     done
 }
 
-function git() {
+function install_git() {
     install git
 
     git config --global core.fileMode false
@@ -37,7 +33,7 @@ function git() {
     git config --global user.email "$globalInput"
 }
 
-function git-flow() {
+function install_git-flow() {
     echo "git-flow installation"
 }
 
