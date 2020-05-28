@@ -19,6 +19,10 @@ function install() {
     sudo apt-get --yes install $@
 }
 
+function installSnap() {
+    sudo snap install $@
+}
+
 function output() {
     array=($(echo $1 | tr "|" "\n"))
 
@@ -30,6 +34,27 @@ function output() {
 #----------#
 # PACKAGES #
 #----------#
+
+# IDE
+
+function install_android-studio() {
+    installSnap android-studio
+    install "qemu-kvm bridge-utils"
+}
+
+function install_vscode() {
+    installSnap code
+    code --instal-extension Shan.code-settings-sync
+}
+
+# PROGRAMMING
+
+function install_flutter() {
+    cd $HOME
+    git clone https://github.com/flutter/flutter.git
+    echo "" >> .bashrc
+    echo "export PATH=\$PATH:\$HOME/Android/Sdk/platform-tools:\$HOME/flutter/bin" >> .bashrc
+}
 
 # TORRENT
 
@@ -55,6 +80,12 @@ function install_git-flow() {
     install git-flow
 }
 
+# VIDEO
+
+function install_vlc() {
+    install vlc
+}
+
 #------#
 # MAIN #
 #------#
@@ -73,16 +104,42 @@ zenity \
 
 # email -> thunderbird, mailspring
 
-# ide -> vscode, android studio
+# IDE
 
-# system -> tweaks
-
-# TORRENT -> transmission
 input=$(zenity \
     --list \
     --checklist \
     --title="Packages" \
-    --text="Version control" \
+    --text="IDE" \
+    --column="Check" \
+    --column="Package name" \
+    false android-studio \
+    false vscode)
+output $input
+
+# PHOTO -> gimp
+
+# PROGRAMMING -> java, flutter, node
+
+input=$(zenity \
+    --list \
+    --checklist \
+    --title="Packages" \
+    --text="Programming" \
+    --column="Check" \
+    --column="Package name" \
+    false flutter)
+output $input
+
+# system -> tweaks
+
+# TORRENT
+
+input=$(zenity \
+    --list \
+    --checklist \
+    --title="Packages" \
+    --text="Torrent" \
     --column="Check" \
     --column="Package name" \
     false transmission)
@@ -101,4 +158,14 @@ input=$(zenity \
     false git-flow)
 output $input
 
-# video -> vlc, obs, kdelive
+# VIDEO -> obs, kdelive
+
+input=$(zenity \
+    --list \
+    --checklist \
+    --title="Packages" \
+    --text="Video" \
+    --column="Check" \
+    --column="Package name" \
+    false vlc)
+output $input
