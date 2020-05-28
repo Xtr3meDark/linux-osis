@@ -31,6 +31,14 @@ function output() {
 # PACKAGES #
 #----------#
 
+# TORRENT
+
+function install_transmission() {
+    install transmission
+}
+
+# VCS
+
 function install_git() {
     install git
 
@@ -44,17 +52,43 @@ function install_git() {
 }
 
 function install_git-flow() {
-    echo "git-flow installation"
+    install git-flow
 }
 
 #------#
 # MAIN #
 #------#
 
+# Remove apt lock and update repo
+sudo rm /var/lib/dpkg/lock-frontend
+sudo rm /var/cache/apt/archives/lock
+sudo apt update -y
+
 zenity \
     --info \
     --no-wrap \
     --text="Note that still only works with Ubuntu"
+
+# browsers -> chrome
+
+# email -> thunderbird, mailspring
+
+# ide -> vscode, android studio
+
+# system -> tweaks
+
+# TORRENT -> transmission
+input=$(zenity \
+    --list \
+    --checklist \
+    --title="Packages" \
+    --text="Version control" \
+    --column="Check" \
+    --column="Package name" \
+    false transmission)
+output $input
+
+# VCS
 
 input=$(zenity \
     --list \
@@ -65,5 +99,6 @@ input=$(zenity \
     --column="Package name" \
     false git \
     false git-flow)
-
 output $input
+
+# video -> vlc, obs, kdelive
