@@ -1,7 +1,13 @@
 #!/bin/bash
 
+#-----#
+# VAR #
+#-----#
 globalInput=""
 
+#-----------#
+# FUNCTIONS #
+#-----------#
 function getInput() {
     globalInput=$(zenity \
         --entry \
@@ -20,6 +26,10 @@ function output() {
         "install_$i"
     done
 }
+
+#----------#
+# PACKAGES #
+#----------#
 
 function install_git() {
     install git
