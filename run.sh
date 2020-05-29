@@ -32,6 +32,14 @@ function output() {
 }
 
 #----------#
+#  UPDATE  #
+#----------#
+
+function update() {
+	sudo apt-get update
+}
+
+#----------#
 # PACKAGES #
 #----------#
 
@@ -93,7 +101,7 @@ function install_vlc() {
 # Remove apt lock and update repo
 sudo rm /var/lib/dpkg/lock-frontend
 sudo rm /var/cache/apt/archives/lock
-sudo apt update -y
+update
 
 zenity \
     --info \
