@@ -35,6 +35,11 @@ function output() {
 # PACKAGES #
 #----------#
 
+# EMAIL
+function install_mailspring() {
+    installSnap mailspring
+}
+
 # IDE
 
 function install_android-studio() {
@@ -52,8 +57,8 @@ function install_vscode() {
 function install_flutter() {
     cd $HOME
     git clone https://github.com/flutter/flutter.git
-    echo "" >> .bashrc
-    echo "export PATH=\$PATH:\$HOME/Android/Sdk/platform-tools:\$HOME/flutter/bin" >> .bashrc
+    echo "" >>.bashrc
+    echo "export PATH=\$PATH:\$HOME/Android/Sdk/platform-tools:\$HOME/flutter/bin" >>.bashrc
 }
 
 # TORRENT
@@ -82,6 +87,10 @@ function install_git-flow() {
 
 # VIDEO
 
+function install_obs-studio() {
+    installSnap obs-studio
+}
+
 function install_vlc() {
     install vlc
 }
@@ -102,7 +111,16 @@ zenity \
 
 # browsers -> chrome
 
-# email -> thunderbird, mailspring
+# email -> thunderbird
+input=$(zenity \
+    --list \
+    --checklist \
+    --title="Packages" \
+    --text="Email" \
+    --column="Check" \
+    --column="Package name" \
+    false mailspring)
+output $input
 
 # IDE
 
@@ -119,7 +137,7 @@ output $input
 
 # PHOTO -> gimp
 
-# PROGRAMMING -> java, flutter, node
+# PROGRAMMING -> java, node
 
 input=$(zenity \
     --list \
@@ -158,7 +176,7 @@ input=$(zenity \
     false git-flow)
 output $input
 
-# VIDEO -> obs, kdelive
+# VIDEO -> kdelive
 
 input=$(zenity \
     --list \
@@ -167,5 +185,6 @@ input=$(zenity \
     --text="Video" \
     --column="Check" \
     --column="Package name" \
+    false obs-studio \
     false vlc)
 output $input
