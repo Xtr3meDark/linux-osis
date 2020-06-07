@@ -66,13 +66,13 @@ function install_mailspring() {
 # IDE
 
 function install_android-studio() {
-    installSnap android-studio
+    installSnap "android-studio --classic"
     install "qemu-kvm bridge-utils"
 }
 
 function install_vscode() {
-    installSnap code
-    code --instal-extension Shan.code-settings-sync
+    installSnap "code --classic"
+    code --install-extension Shan.code-settings-sync
 }
 
 # PASSWORD MANAGER
@@ -93,7 +93,7 @@ function install_flutter() {
 # REMOTE
 
 function install_anydesk() {
-    sudo wget -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY | apt-key add -
+    sudo wget -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY | sudo apt-key add -
     sudo echo "deb http://deb.anydesk.com/ all main" > /etc/apt/sources.list.d/anydesk-stable.list
     sudo apt update
     install anydesk
