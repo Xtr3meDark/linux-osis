@@ -3,6 +3,7 @@
 #-----#
 # VAR #
 #-----#
+DOWNLOADS="$HOME/Downloads/OSIS"
 globalInput=""
 
 #-----------#
@@ -35,6 +36,28 @@ function output() {
 # PACKAGES #
 #----------#
 
+# BOOT
+
+function install_ventoy() {
+    cd $DOWNLOADS
+    curl -s https://api.github.com/repos/ventoy/Ventoy/releases/latest \
+    | grep "browser_download_url" \
+    | grep "linux" \
+    | cut -d '"' -f 4 \
+    | wget -i -
+}
+
+function install_woeusb() {
+    sudo add-apt-repository ppa:nilarimogard/webupd8
+    instal woeusb
+}
+
+# BROWSER
+
+function install_chrome() {
+    wget -c "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -P "$DOWNLOADS"
+}
+
 # EMAIL
 function install_mailspring() {
     installSnap mailspring
@@ -52,6 +75,12 @@ function install_vscode() {
     code --instal-extension Shan.code-settings-sync
 }
 
+# PASSWORD MANAGER
+
+function install_myki() {
+    wget -c "https://static.myki.com/releases/da/MYKI-latest-amd64.deb" -P "$DOWNLOADS"
+}
+
 # PROGRAMMING
 
 function install_flutter() {
@@ -59,6 +88,15 @@ function install_flutter() {
     git clone https://github.com/flutter/flutter.git
     echo "" >>.bashrc
     echo "export PATH=\$PATH:\$HOME/Android/Sdk/platform-tools:\$HOME/flutter/bin" >>.bashrc
+}
+
+# REMOTE
+
+function install_anydesk() {
+    sudo wget -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY | apt-key add -
+    sudo echo "deb http://deb.anydesk.com/ all main" > /etc/apt/sources.list.d/anydesk-stable.list
+    sudo apt update
+    install anydesk
 }
 
 # TORRENT
@@ -99,6 +137,9 @@ function install_vlc() {
 # MAIN #
 #------#
 
+# Make dir
+mkdir "$DOWNLOADS"
+
 # Remove apt lock and update repo
 sudo rm /var/lib/dpkg/lock-frontend
 sudo rm /var/cache/apt/archives/lock
@@ -109,9 +150,30 @@ zenity \
     --no-wrap \
     --text="Note that still only works with Ubuntu"
 
-# browsers -> chrome
+# BOOT
+input=$(zenity \
+    --list \
+    --checklist \
+    --title="Packages" \
+    --text="BOOT" \
+    --column="Check" \
+    --column="Package name" \
+    false ventoy \
+    false woeusb)
+output $input
 
-# email -> thunderbird
+# BROWSER
+input=$(zenity \
+    --list \
+    --checklist \
+    --title="Packages" \
+    --text="Browser" \
+    --column="Check" \
+    --column="Package name" \
+    false chrome)
+output $input
+
+# EMAIL -> thunderbird
 input=$(zenity \
     --list \
     --checklist \
@@ -123,7 +185,6 @@ input=$(zenity \
 output $input
 
 # IDE
-
 input=$(zenity \
     --list \
     --checklist \
@@ -135,10 +196,20 @@ input=$(zenity \
     false vscode)
 output $input
 
+# PASSWORD MANAGER
+input=$(zenity \
+    --list \
+    --checklist \
+    --title="Packages" \
+    --text="Password manager" \
+    --column="Check" \
+    --column="Package name" \
+    false myki)
+output $input
+
 # PHOTO -> gimp
 
 # PROGRAMMING -> java, node
-
 input=$(zenity \
     --list \
     --checklist \
@@ -149,10 +220,20 @@ input=$(zenity \
     false flutter)
 output $input
 
-# system -> tweaks
+# REMOTE
+input=$(zenity \
+    --list \
+    --checklist \
+    --title="Packages" \
+    --text="Remote" \
+    --column="Check" \
+    --column="Package name" \
+    false anydesk)
+output $input
+
+# SYSTEM -> tweaks
 
 # TORRENT
-
 input=$(zenity \
     --list \
     --checklist \
@@ -164,7 +245,6 @@ input=$(zenity \
 output $input
 
 # VCS
-
 input=$(zenity \
     --list \
     --checklist \
@@ -177,7 +257,6 @@ input=$(zenity \
 output $input
 
 # VIDEO -> kdelive
-
 input=$(zenity \
     --list \
     --checklist \
@@ -188,3 +267,7 @@ input=$(zenity \
     false obs-studio \
     false vlc)
 output $input
+
+# wget install
+sudo dpkg -i $DOWNLOADS/*.deb
+rm $DOWNLOADS/*.deb
