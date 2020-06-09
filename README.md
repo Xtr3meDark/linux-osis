@@ -1,21 +1,15 @@
 # Linux OSIS
-Linux OSIS (Open Source Install Script) é um script focado na instalação e configuração de pacotes, feito pela comunidade e para a comunidade
+Linux OSIS (Open Source Install Script) is a script focused on installation and configuration of packages, made by the community and for the community
 
-[Grupo Whatsapp](https://chat.whatsapp.com/G7XpMalOPiI2Sh3FBY8u2n)
+[Whatsapp Group](https://chat.whatsapp.com/G7XpMalOPiI2Sh3FBY8u2n)
 
-## Ferramentas
+## Tools
 * [Zenity](https://gitlab.gnome.org/GNOME/zenity)
 
-## Próximas features
-* Menu para escolha da distro
-* Menu para escolha dos pacotes
-  * Os pacotes serão divididos em categorias
-* Suporte a geração de scrips personalizados com uma seleção de pacotes e configurações
-
-## Como contribuir
-1) Crie um fork desse projeto
-2) Clone o <b>seu</b> projeto
-3) Crie uma branch de acordo com a estrutura do [git-flow](https://jeffkreeftmeijer.com/git-flow/) (Para a branch "develop" use "dev", e para prefixo de versão utilize "v")
-4) Faça as alterações ou implementações que desejar
-5) Faça um commit e um push
-6) Abra um Pull Request
+## How to contribute
+1) Fork the project
+2) Clone <b>your</b> project
+3) Create a branch following [git-flow](https://jeffkreeftmeijer.com/git-flow/) structure (for "develop" branch use "dev", and for prefix "v")
+4) Do the modifications you want
+5) Do a commit and push
+6) Open a Pull Request
