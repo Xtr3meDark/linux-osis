@@ -1,8 +1,6 @@
 # Linux OSIS
 Linux OSIS (Open Source Install Script) is a script focused on installation and configuration of packages, made by the community and for the community
 
-[Whatsapp Group](https://chat.whatsapp.com/G7XpMalOPiI2Sh3FBY8u2n)
-
 ## Tools
 * [Zenity](https://gitlab.gnome.org/GNOME/zenity)
 
