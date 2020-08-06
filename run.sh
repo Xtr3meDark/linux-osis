@@ -83,6 +83,10 @@ function install_myki() {
 
 # PROGRAMMING
 
+function install_figma-linux() {
+    installSnap "figma-linux"
+}
+
 function install_flutter() {
     cd $HOME
     install git
@@ -163,6 +167,18 @@ input=$(zenity \
     false woeusb)
 output $input
 
+# VCS
+input=$(zenity \
+    --list \
+    --checklist \
+    --title="Packages" \
+    --text="Version control" \
+    --column="Check" \
+    --column="Package name" \
+    false git \
+    false git-flow)
+output $input
+
 # BROWSER
 input=$(zenity \
     --list \
@@ -218,6 +234,7 @@ input=$(zenity \
     --text="Programming" \
     --column="Check" \
     --column="Package name" \
+    false figma-linux \
     false flutter)
 output $input
 
@@ -243,18 +260,6 @@ input=$(zenity \
     --column="Check" \
     --column="Package name" \
     false transmission)
-output $input
-
-# VCS
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="Version control" \
-    --column="Check" \
-    --column="Package name" \
-    false git \
-    false git-flow)
 output $input
 
 # VIDEO -> kdelive
