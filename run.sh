@@ -72,7 +72,6 @@ function install_android-studio() {
 
 function install_vscode() {
     installSnap "code --classic"
-    code --install-extension Shan.code-settings-sync
 }
 
 # PASSWORD MANAGER
@@ -91,8 +90,9 @@ function install_flutter() {
     cd $HOME
     install git
     git clone https://github.com/flutter/flutter.git
-    echo "" >>.bashrc
-    echo "export PATH=\$PATH:\$HOME/Android/Sdk/platform-tools:\$HOME/flutter/bin" >>.bashrc
+    echo "" >> .bashrc
+    echo "export PATH=\$PATH:\$HOME/Android/Sdk/platform-tools" >> .bashrc
+    echo "alias flutter='\$HOME/flutter/bin/flutter'" >> .bash_aliases
 }
 
 # REMOTE
