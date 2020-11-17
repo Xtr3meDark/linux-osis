@@ -276,4 +276,4 @@ output $input
 
 # wget install
 sudo dpkg -i $DOWNLOADS/*.deb
-rm $DOWNLOADS/*.deb
+rm -rf $DOWNLOADS
