@@ -25,6 +25,8 @@ function installSnap() {
 }
 
 function output() {
+    [[ "$?" != "0" ]] && exit 1
+
     array=($(echo $1 | tr "|" "\n"))
 
     for i in "${array[@]}"; do
@@ -81,6 +83,12 @@ function install_myki() {
 }
 
 # PROGRAMMING
+
+function install_docker() {
+    echo "{" | sudo tee /etc/docker/daemon.json
+    echo "  \"graph\": \"$HOME/Documents/.docker\"" | sudo tee /etc/docker/daemon.json -a
+    echo "}" | sudo tee /etc/docker/daemon.json -a
+}
 
 function install_figma-linux() {
     installSnap "figma-linux"
@@ -190,6 +198,17 @@ input=$(zenity \
     false chrome)
 output $input
 
+# DESIGN
+input=$(zenity \
+    --list \
+    --checklist \
+    --title="Packages" \
+    --text="Design" \
+    --column="Check" \
+    --column="Package name" \
+    false figma-linux)
+output $input
+
 # EMAIL -> thunderbird
 input=$(zenity \
     --list \
@@ -226,6 +245,7 @@ output $input
 
 # PHOTO -> gimp
 
+echo -e "\033[0;31mDOCKER IS W.I.P, DON'T USE IT\033[0m"
 # PROGRAMMING -> java, node
 input=$(zenity \
     --list \
@@ -234,7 +254,7 @@ input=$(zenity \
     --text="Programming" \
     --column="Check" \
     --column="Package name" \
-    false figma-linux \
+    false docker \
     false flutter)
 output $input
 
