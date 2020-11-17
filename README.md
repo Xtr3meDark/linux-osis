@@ -1,8 +1,15 @@
 # Linux OSIS
 Linux OSIS (Open Source Install Script) is a script focused on installation and configuration of packages, made by the community and for the community
 
-## Tools
+## Dependencies
 * [Zenity](https://gitlab.gnome.org/GNOME/zenity)
+
+## Utilities
+* Install basic programs + config
+* Clear old configs and outdated snaps
+* Clear RAM
+* Reduce Swappinness
+* Trim SSD
 
 ## How to contribute
 1) Fork the project
