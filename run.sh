@@ -9,6 +9,11 @@ globalInput=""
 #-----------#
 # FUNCTIONS #
 #-----------#
+
+function echoRed() {
+    echo -e "\033[0;31m$1\033[0m"
+}
+
 function getInput() {
     globalInput=$(zenity \
         --entry \
@@ -85,9 +90,19 @@ function install_myki() {
 # PROGRAMMING
 
 function install_docker() {
+    install "docker docker-compose"
+
+    sudo service docker stop
+
     echo "{" | sudo tee /etc/docker/daemon.json
     echo "  \"graph\": \"$HOME/Documents/.docker\"" | sudo tee /etc/docker/daemon.json -a
     echo "}" | sudo tee /etc/docker/daemon.json -a
+
+    sudo usermod -aG docker ${USER}
+
+    sudo service docker start
+
+    echoRed "Docker installation needs a logout or a reboot, dont forget to do it later"
 }
 
 function install_figma-linux() {
@@ -245,7 +260,6 @@ output $input
 
 # PHOTO -> gimp
 
-echo -e "\033[0;31mDOCKER IS W.I.P, DON'T USE IT\033[0m"
 # PROGRAMMING -> java, node
 input=$(zenity \
     --list \
