@@ -70,7 +70,14 @@ function install_chrome() {
     wget -c "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -P "$DOWNLOADS"
 }
 
+# DESIGN
+
+function install_figma-linux() {
+    installSnap "figma-linux"
+}
+
 # EMAIL
+
 function install_mailspring() {
     installSnap mailspring
 }
@@ -111,11 +118,6 @@ function install_docker() {
     --info \
     --no-wrap \
     --text="Docker installation needs a logout or a reboot, dont forget to do it later"
-
-}
-
-function install_figma-linux() {
-    installSnap "figma-linux"
 }
 
 function install_flutter() {
@@ -125,6 +127,11 @@ function install_flutter() {
     echo "" >> .bashrc
     echo "export PATH=\$PATH:\$HOME/Android/Sdk/platform-tools:\$HOME/flutter/bin" >> .bashrc
     echo "alias flutter='\$HOME/flutter/bin/flutter'" >> .bash_aliases
+}
+
+function install_node() {
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+    nvm install node --lts
 }
 
 # REMOTE
@@ -175,6 +182,8 @@ function install_vlc() {
 #------#
 
 trap cleanup EXIT
+
+install "zenity curl"
 
 # Make dir
 mkdir "$DOWNLOADS"
@@ -271,7 +280,7 @@ output $input
 
 # PHOTO -> gimp
 
-# PROGRAMMING -> java, node, php
+# PROGRAMMING -> java, php
 input=$(zenity \
     --list \
     --checklist \
@@ -280,7 +289,8 @@ input=$(zenity \
     --column="Check" \
     --column="Package name" \
     false docker \
-    false flutter)
+    false flutter \
+    false node)
 output $input
 
 # REMOTE
