@@ -3,12 +3,17 @@
 #-----#
 # VAR #
 #-----#
-DOWNLOADS="$HOME/Downloads/OSIS"
+DOWNLOADS="/tmp/OSIS"
 globalInput=""
 
 #-----------#
 # FUNCTIONS #
 #-----------#
+
+function cleanup {
+    echo "Removing /tmp/OSIS"
+    rm -rf $DOWNLOADS
+}
 
 function echoRed() {
     echo -e "\033[0;31m$1\033[0m"
@@ -102,7 +107,11 @@ function install_docker() {
 
     sudo service docker start
 
-    echoRed "Docker installation needs a logout or a reboot, dont forget to do it later"
+    zenity \
+    --info \
+    --no-wrap \
+    --text="Docker installation needs a logout or a reboot, dont forget to do it later"
+
 }
 
 function install_figma-linux() {
@@ -164,6 +173,8 @@ function install_vlc() {
 #------#
 # MAIN #
 #------#
+
+trap cleanup EXIT
 
 # Make dir
 mkdir "$DOWNLOADS"
@@ -235,7 +246,7 @@ input=$(zenity \
     false mailspring)
 output $input
 
-# IDE
+# IDE -> sublime
 input=$(zenity \
     --list \
     --checklist \
@@ -260,7 +271,7 @@ output $input
 
 # PHOTO -> gimp
 
-# PROGRAMMING -> java, node
+# PROGRAMMING -> java, node, php
 input=$(zenity \
     --list \
     --checklist \
@@ -310,4 +321,4 @@ output $input
 
 # wget install
 sudo dpkg -i $DOWNLOADS/*.deb
-rm -rf $DOWNLOADS
+cleanup
