@@ -124,8 +124,7 @@ function install_flutter() {
     cd $HOME
     install git
     git clone https://github.com/flutter/flutter.git
-    echo "" >> .bashrc
-    echo "export PATH=\$PATH:\$HOME/Android/Sdk/platform-tools:\$HOME/flutter/bin" >> .bashrc
+    echo "alias adb '\$HOME/Android/Sdk/platform-tools/adb'" >> .bash_aliases
     echo "alias flutter='\$HOME/flutter/bin/flutter'" >> .bash_aliases
 }
 
