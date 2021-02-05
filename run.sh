@@ -3,6 +3,7 @@
 #-----#
 # VAR #
 #-----#
+DOWNLOADS="/tmp/OSIS"
 echo "Digite o user.name para o GIT: "
 read gitName
 echo "Digite o user.email para o GIT: "
