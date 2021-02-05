@@ -3,77 +3,46 @@
 #-----#
 # VAR #
 #-----#
-DOWNLOADS="/tmp/OSIS"
-globalInput=""
+echo "Digite o user.name para o GIT: "
+read gitName
+echo "Digite o user.email para o GIT: "
+read gitEmail
 
 #-----------#
 # FUNCTIONS #
 #-----------#
+
+function bash_theme {
+    cd $HOME
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
+    mv .bashrc .bashrcBAK
+    sed '6 cOSH_THEME="powerline-multiline"' .bashrcBAK > .bashrc
+    rm .bashrcBAK
+    source .bashrc
+}
 
 function cleanup {
     echo "Removing /tmp/OSIS"
     rm -rf $DOWNLOADS
 }
 
-function echoRed() {
-    echo -e "\033[0;31m$1\033[0m"
-}
-
-function getInput() {
-    globalInput=$(zenity \
-        --entry \
-        --title="$1" \
-        --text="$2")
-}
-
 function install() {
-    sudo apt-get --yes install $@
+    sudo apt-get -y install $@
 }
 
 function installSnap() {
     sudo snap install $@
 }
 
-function output() {
-    [[ "$?" != "0" ]] && exit 1
-
-    array=($(echo $1 | tr "|" "\n"))
-
-    for i in "${array[@]}"; do
-        "install_$i"
-    done
-}
-
 #----------#
 # PACKAGES #
 #----------#
 
-# BOOT
-
-function install_ventoy() {
-    cd $HOME/Downloads
-    curl -s https://api.github.com/repos/ventoy/Ventoy/releases/latest \
-    | grep "browser_download_url" \
-    | grep "linux" \
-    | cut -d '"' -f 4 \
-    | wget -i -
-}
-
-function install_woeusb() {
-    sudo add-apt-repository ppa:nilarimogard/webupd8
-    instal woeusb
-}
 
 # BROWSER
 
 function install_chrome() {
     wget -c "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -P "$DOWNLOADS"
-}
-
-# DESIGN
-
-function install_figma-linux() {
-    installSnap "figma-linux"
 }
 
 # EMAIL
@@ -133,21 +102,6 @@ function install_node() {
     nvm install node --lts
 }
 
-# REMOTE
-
-function install_anydesk() {
-    sudo wget -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY | sudo apt-key add -
-    sudo echo "deb http://deb.anydesk.com/ all main" > /etc/apt/sources.list.d/anydesk-stable.list
-    sudo apt update
-    install anydesk
-}
-
-# TORRENT
-
-function install_transmission() {
-    install transmission
-}
-
 # VCS
 
 function install_git() {
@@ -157,23 +111,13 @@ function install_git() {
     git config --global credential.helper store
 
     getInput "GIT" "Default commit NAME"
-    git config --global user.name "$globalInput"
+    git config --global user.name "$gitName"
     getInput "GIT" "Default commit EMAIL"
-    git config --global user.email "$globalInput"
+    git config --global user.email "$gitEmail"
 }
 
 function install_git-flow() {
     install git-flow
-}
-
-# VIDEO
-
-function install_obs-studio() {
-    installSnap obs-studio
-}
-
-function install_vlc() {
-    install vlc
 }
 
 #------#
@@ -182,7 +126,7 @@ function install_vlc() {
 
 trap cleanup EXIT
 
-install "zenity curl"
+install "curl"
 
 # Make dir
 mkdir "$DOWNLOADS"
@@ -192,141 +136,18 @@ sudo rm /var/lib/dpkg/lock-frontend
 sudo rm /var/cache/apt/archives/lock
 sudo apt update -y
 
-zenity \
-    --info \
-    --no-wrap \
-    --text="Note that still only works with Ubuntu"
+# Install packages
+install_git
+install_git-flow
+install_chrome
+install_mailspring
+install_android-studio
+install_vscode
+install_myki
+install_docker
+install_flutter
 
-# BOOT
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="BOOT" \
-    --column="Check" \
-    --column="Package name" \
-    false ventoy \
-    false woeusb)
-output $input
-
-# VCS
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="Version control" \
-    --column="Check" \
-    --column="Package name" \
-    false git \
-    false git-flow)
-output $input
-
-# BROWSER
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="Browser" \
-    --column="Check" \
-    --column="Package name" \
-    false chrome)
-output $input
-
-# DESIGN
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="Design" \
-    --column="Check" \
-    --column="Package name" \
-    false figma-linux)
-output $input
-
-# EMAIL -> thunderbird
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="Email" \
-    --column="Check" \
-    --column="Package name" \
-    false mailspring)
-output $input
-
-# IDE -> sublime
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="IDE" \
-    --column="Check" \
-    --column="Package name" \
-    false android-studio \
-    false vscode)
-output $input
-
-# PASSWORD MANAGER
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="Password manager" \
-    --column="Check" \
-    --column="Package name" \
-    false myki)
-output $input
-
-# PHOTO -> gimp
-
-# PROGRAMMING -> java, php
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="Programming" \
-    --column="Check" \
-    --column="Package name" \
-    false docker \
-    false flutter \
-    false node)
-output $input
-
-# REMOTE
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="Remote" \
-    --column="Check" \
-    --column="Package name" \
-    false anydesk)
-output $input
-
-# SYSTEM -> tweaks
-
-# TORRENT
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="Torrent" \
-    --column="Check" \
-    --column="Package name" \
-    false transmission)
-output $input
-
-# VIDEO -> kdelive
-input=$(zenity \
-    --list \
-    --checklist \
-    --title="Packages" \
-    --text="Video" \
-    --column="Check" \
-    --column="Package name" \
-    false obs-studio \
-    false vlc)
-output $input
+bash_theme
 
 # wget install
 sudo dpkg -i $DOWNLOADS/*.deb
