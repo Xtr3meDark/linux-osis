@@ -86,7 +86,9 @@ function install_mailspring() {
 
 function install_android-studio() {
     installSnap "android-studio --classic"
-    install "qemu-kvm bridge-utils"
+    install "qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst virt-manager"
+    sudo usermod -aG libvirt $USER
+    sudo usermod -aG kvm $USER
 }
 
 function install_vscode() {

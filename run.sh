@@ -56,7 +56,9 @@ function install_mailspring() {
 
 function install_android-studio() {
     installSnap "android-studio --classic"
-    install "qemu-kvm bridge-utils"
+    install "qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst virt-manager"
+    sudo usermod -aG libvirt $USER
+    sudo usermod -aG kvm $USER
 }
 
 function install_vscode() {
@@ -94,7 +96,7 @@ function install_flutter() {
     cd $HOME
     install git
     git clone https://github.com/flutter/flutter.git
-    echo "alias adb '\$HOME/Android/Sdk/platform-tools/adb'" >> .bash_aliases
+    echo "alias adb='\$HOME/Android/Sdk/platform-tools/adb'" >> .bash_aliases
     echo "alias flutter='\$HOME/flutter/bin/flutter'" >> .bash_aliases
 }
 
