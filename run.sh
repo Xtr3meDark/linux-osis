@@ -95,9 +95,13 @@ function install_docker() {
 function install_flutter() {
     cd $HOME
     install git
-    git clone https://github.com/flutter/flutter.git
-    echo "alias adb='\$HOME/Android/Sdk/platform-tools/adb'" >> .bash_aliases
-    echo "alias flutter='\$HOME/flutter/bin/flutter'" >> .bash_aliases
+    echo "alias adb '\$HOME/Android/Sdk/platform-tools/adb'" >> .bash_aliases
+
+    sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
+    sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
+
+    install dart
+    echo "export PATH=\"$PATH:$HOME/.pub-cache/bin\"" >> .bashrc
 }
 
 function install_node() {
