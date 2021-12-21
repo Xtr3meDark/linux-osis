@@ -189,7 +189,10 @@ function install_vlc() {
 
 trap cleanup EXIT
 
-install "zenity curl"
+install "zenity curl rsync"
+
+echo "alias cp='rsync -aP'" >> .bash_aliases
+echo "alias mv='rsync -aP --remove-source-files'" >> .bash_aliases
 
 # Make dir
 mkdir "$DOWNLOADS"
