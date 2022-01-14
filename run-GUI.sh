@@ -10,6 +10,15 @@ globalInput=""
 # FUNCTIONS #
 #-----------#
 
+function bash_theme {
+    cd $HOME
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
+    mv .bashrc .bashrcBAK
+    sed '6 cOSH_THEME="powerline-multiline"' .bashrcBAK > .bashrc
+    rm .bashrcBAK
+    source .bashrc
+}
+
 function cleanup {
     echo "Removing /tmp/OSIS"
     rm -rf $DOWNLOADS
@@ -190,6 +199,8 @@ function install_vlc() {
 trap cleanup EXIT
 
 install "zenity curl rsync"
+
+bash_theme
 
 echo "alias cp='rsync -aP'" >> .bash_aliases
 echo "alias mv='rsync -aP --remove-source-files'" >> .bash_aliases
